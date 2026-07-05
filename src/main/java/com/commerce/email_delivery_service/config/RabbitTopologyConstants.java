@@ -9,6 +9,7 @@ public final class RabbitTopologyConstants {
     public static final String DLQ_NAME = "commerce.order.events.DLQ";
     public static final int QUEUE_COUNT = 6;
     public static final int MAX_RETRY_TIERS = 3; // 1s, 5s, 15s
+    public static final int MAX_REDRIVE_ATTEMPTS = 3; // caps auto-redrive loops on a permanently-broken message
 
     public static String mainQueueName(int index) {
         return "commerce.order.events.q" + index;

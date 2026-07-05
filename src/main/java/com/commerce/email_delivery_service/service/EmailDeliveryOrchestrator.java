@@ -105,10 +105,8 @@ public class EmailDeliveryOrchestrator {
             // 1. Read the network stream entirely into memory before it closes
             byte[] attachmentBytes = attachmentStream.readAllBytes();
 
-            // 2. Wrap the memory buffer back into an InputStream for EmailSendService
-            try (java.io.ByteArrayInputStream memoryStream = new java.io.ByteArrayInputStream(attachmentBytes)) {
-                emailSendService.sendOrderConfirmation(orderId, customerId, items.toString(), filename, memoryStream);
-            }
+            // 2. Pass the byte array directly since emailSendService accepts byte[]
+            emailSendService.sendOrderConfirmation(orderId, customerId, items.toString(), filename, attachmentBytes);
         } catch (IOException e) {
             throw new com.commerce.email_delivery_service.exception.RetryableProcessingException(
                     "Failed to process attachment stream for order " + orderId, e);
